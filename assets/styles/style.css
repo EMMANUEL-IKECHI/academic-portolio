@@ -1,9 +1,11 @@
 :root {
-  --bg: #0f1724;
-  --card: #0b1220;
-  --muted: #94a3b8;
-  --accent: #4f46e5;
-  --glass: rgba(255, 255, 255, 0.04);
+  /* Dark Theme - Science/Chem Palette */
+  --bg: #0e0f1d; /* Deep Midnight Blue */
+  --card: #151a31; /* Slightly Lighter Card Background */
+  --muted: #A1ACB8; /* Light Gray for Muted Text */
+  --text: #e6eef8; /* Near-White Text */
+  --accent: #06B6D4; /* Bright Cyan/Teal for CADD Theme */
+  --glass: rgba(6, 182, 212, 0.1); /* Glass effect using accent color for subtlety */
   --maxw: 1000px;
 }
 
@@ -14,8 +16,9 @@
 body {
   font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   margin: 0;
-  background: linear-gradient(180deg, var(--bg) 0%, #071028 100%);
-  color: #e6eef8;
+  /* Updated gradient with new colors for deep background */
+  background: linear-gradient(180deg, var(--bg) 0%, #081230 100%); 
+  color: var(--text); /* Using new text color variable */
   -webkit-font-smoothing: antialiased;
 }
 
@@ -48,7 +51,8 @@ header {
   width: 60px;
   height: 60px;
   border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent), #06b6d4);
+  /* Solid accent color */
+  background: var(--accent); 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,7 +80,8 @@ nav a {
 }
 
 nav a:hover {
-  background: var(--glass);
+  /* Using glass variable based on accent color */
+  background: var(--glass); 
   color: #fff;
 }
 
@@ -103,10 +108,12 @@ nav a:hover {
 }
 
 .contact-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+  /* Using solid card background for consistency */
+  background: var(--card); 
   padding: 18px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  /* More distinct border */
+  border: 1px solid rgba(255, 255, 255, 0.08); 
 }
 
 .contact-card img {
@@ -130,7 +137,7 @@ nav a:hover {
   padding: 10px 14px;
   border-radius: 8px;
   background: var(--accent);
-  color: white;
+  color: var(--bg); /* Dark text on bright accent for contrast */
   font-weight: 700;
 }
 
@@ -143,10 +150,11 @@ section {
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.02);
+  /* Using card variable and consistent border */
+  background: var(--card); 
   padding: 18px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .grid-2 {
@@ -185,9 +193,10 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  nav {
-    display: none;
-  }
+  /* Assuming you will fix the mobile nav display in HTML/JS */
+  nav { 
+    /* Keep this for desktop view */
+  } 
 
   .mobile-nav {
     display: flex;
@@ -214,7 +223,49 @@ footer {
   display: inline-block;
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.02);
+  /* Using glass effect based on accent for pill background */
+  background: var(--glass); 
   font-weight: 600;
   color: var(--muted);
+}
+
+/* --- Mobile Navigation Overhaul --- */
+
+/* 1. Base Mobile Styling (Applied when the screen is small) */
+@media (max-width: 880px) {
+    /* Hide the main nav links by default */
+    nav#mainNav {
+        display: none; /* Will be overridden by .nav-open */
+        position: absolute;
+        top: 80px; /* Below the header */
+        left: 0;
+        right: 0;
+        /* Use card background for the menu overlay */
+        background: var(--card); 
+        flex-direction: column;
+        padding: 16px 24px;
+        z-index: 10;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    
+    nav#mainNav a {
+        padding: 12px 0;
+        width: 100%;
+        text-align: left;
+        border-radius: 0;
+        /* Ensure text is visible against the menu background */
+        color: var(--text); 
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+    }
+
+    nav#mainNav a:last-child {
+        border-bottom: none;
+    }
+
+    /* 2. State for an OPEN Menu */
+    nav#mainNav.nav-open {
+        display: flex; /* Overrides the default display: none */
+    }
 }
