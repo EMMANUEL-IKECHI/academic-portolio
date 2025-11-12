@@ -79,6 +79,13 @@ nav a {
   font-weight: 600;
 }
 
+/* Styling for the Active Navigation Link */
+nav a.active {
+  background: var(--accent); /* Use the bright cyan accent color */
+  color: var(--bg);         /* Use the dark background color for high contrast text */
+  font-weight: 700;
+}
+
 nav a:hover {
   /* Using glass variable based on accent color */
   background: var(--glass); 
@@ -185,6 +192,48 @@ footer {
   color: var(--muted);
   font-size: 14px;
   text-align: center;
+}
+
+/* --- REVISED CSS for Responsive Certificate Gallery Fix --- */
+
+/* 1. Ensure the image container is flexible and controls overflow horizontally */
+#certifications .card {
+    /* Set a small padding to give space around the gallery */
+    padding: 18px; 
+    
+    /* Ensure no content leaks out horizontally */
+    overflow-x: hidden; 
+}
+
+/* 2. Target the main gallery grid structure */
+#certifications .card > div {
+    /* Existing grid setup: Use minmax to define columns, allowing them to shrink to 280px or take up 1fr */
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 20px; 
+    margin-top: 20px;
+}
+
+/* 3. Ensure the image inside the wrapper is fully responsive and bounded */
+#certifications img {
+    /* CRITICAL: Forces image to never exceed the width of its direct parent (the inner certificate div) */
+    max-width: 100%; 
+    height: auto; 
+    display: block; 
+    border-radius: 4px; 
+}
+
+/* 4. Optimize for very narrow viewports (e.g., small mobile screens) */
+@media (max-width: 480px) {
+    #certifications .card > div {
+        /* On small phones, force the grid to stack vertically (1 column) to ensure enough space */
+        grid-template-columns: 1fr; 
+    }
+    
+    /* Optional: reduce spacing on tight screens */
+    #certifications .card {
+        padding: 12px;
+    }
 }
 
 /* Responsive */
