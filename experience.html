@@ -43,42 +43,42 @@
         
             <div class="carousel-container">
                 <div class="carousel-track" id="comp-carousel">
-        
+                    
                     <div class="carousel-slide">
                         <img src="assets/images/work-experience/1.jpeg" alt="Favour working on molecular docking simulations" />
-                        <p class="carousel-caption muted">Image 1: Molecular docking simulation setup.</p>
+                        <p class="carousel-caption muted">Molecular Docking Simulation Setup.</p>
                     </div>
-        
+                    
                     <div class="carousel-slide">
                         <img src="assets/images/work-experience/2.jpeg" alt="Favour analyzing QSAR data" />
-                        <p class="carousel-caption muted">Image 2: Analyzing QSAR model results and data analysis.</p>
+                        <p class="carousel-caption muted">Analyzing QSAR Model Results.</p>
                     </div>
-        
+                    
                     <div class="carousel-slide">
                         <img src="assets/images/work-experience/3.jpeg" alt="Favour reviewing ADMET profiles" />
-                        <p class="carousel-caption muted">Image 3: Reviewing ADMET profiles for drug candidates.</p>
+                        <p class="carousel-caption muted">Reviewing Pharmacokinetic (ADMET) Profiles.</p>
                     </div>
 
                     <div class="carousel-slide">
                         <img src="assets/images/work-experience/4.jpeg" alt="Favour reviewing computational models" />
-                        <p class="carousel-caption muted">Image 4: Reviewing computational research models.</p>
+                        <p class="carousel-caption muted">Reviewing Computational Research Models.</p>
                     </div>
 
                     <div class="carousel-slide">
                         <img src="assets/images/work-experience/5.jpeg" alt="Favour presenting computational work" />
-                        <p class="carousel-caption muted">Image 5: Presenting computational research findings.</p>
+                        <p class="carousel-caption muted">Presenting Computational Research Findings.</p>
                     </div>
 
                     <!-- <div class="carousel-slide">
                         <img src="assets/images/work-experience/6.jpeg" alt="Favour in a professional research meeting" />
-                        <p class="carousel-caption muted">Image 6: Professional meeting with Chemsolvers research team.</p>
+                        <p class="carousel-caption muted">Professional Meeting with Research Team.</p>
                     </div> -->
-        
+                    
                 </div>
 
                 <button class="carousel-control prev" aria-label="Previous Slide">‹</button>
                 <button class="carousel-control next" aria-label="Next Slide">›</button>
-    
+                
                 <div class="carousel-dots"></div>
             </div>
         
@@ -152,8 +152,7 @@
       © 2025 Favour Ogadinma Izuagba • Research Assistant — Medicinal Chemistry & CADD
     </footer>
   </div>
-
-  <script>
+    <script>
     // --- Global Functionality ---
     
     // Mobile menu elements
@@ -201,13 +200,19 @@
       const dotsContainer = container.querySelector('.carousel-dots');
       
       let currentSlideIndex = 0;
+      let intervalId; // Variable to hold the timer ID
+
+      const AUTO_SCROLL_DELAY = 5000; // 5 seconds
 
       // Create dots
       slides.forEach((slide, index) => {
           const dot = document.createElement('span');
           dot.classList.add('dot');
           if (index === 0) dot.classList.add('active');
-          dot.addEventListener('click', () => moveToSlide(index));
+          dot.addEventListener('click', () => {
+              moveToSlide(index);
+              resetAutoScroll();
+          });
           dotsContainer.appendChild(dot);
       });
 
@@ -234,17 +239,35 @@
           moveToSlide(nextIndex);
       };
 
+      // Function to start the automatic scrolling
+      const startAutoScroll = () => {
+          intervalId = setInterval(handleNext, AUTO_SCROLL_DELAY);
+      };
+
+      // Function to clear the timer and restart it after manual interaction
+      const resetAutoScroll = () => {
+          clearInterval(intervalId);
+          startAutoScroll();
+      };
+
       const handlePrev = () => {
           let prevIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
           moveToSlide(prevIndex);
+          resetAutoScroll();
       };
 
-      // Event listeners for controls
-      nextButton.addEventListener('click', handleNext);
+      // Event listeners for controls (now include reset)
+      nextButton.addEventListener('click', () => {
+          handleNext();
+          resetAutoScroll();
+      });
       prevButton.addEventListener('click', handlePrev);
 
       // Recalculate track position on window resize
       window.addEventListener('resize', updateTrack);
+
+      // Start the carousel immediately
+      startAutoScroll();
     };
 
     // Initialize scripts after DOM is fully loaded
@@ -252,6 +275,129 @@
         // Initialize the new carousel by its ID
         initCarousel('.carousel-container');
     });
-  </script>
+  </script><script>
+    // --- Global Functionality ---
+    
+    // Mobile menu elements
+    const menuBtn = document.getElementById('menuBtn');
+    const nav = document.getElementById('mainNav');
+    
+    // 1. Mobile Menu Toggle Logic
+    menuBtn && menuBtn.addEventListener('click', (e)=>{
+      e.stopPropagation(); 
+      nav.classList.toggle('nav-open');
+    });
+
+    // 2. Close menu when clicking outside of the navigation
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && !menuBtn.contains(e.target)) {
+        nav.classList.remove('nav-open');
+      }
+    });
+
+    // Smooth scrolling for anchor links (Modified to close menu on link click)
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const href = a.getAttribute('href');
+        if(href.length>1){
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({behavior:'smooth',block:'start'});
+          
+          // Close menu when a link inside the menu is clicked
+          nav.classList.remove('nav-open');
+        }
+      })
+    });
+
+
+    // --- Carousel Functionality ---
+
+    const initCarousel = (containerId) => {
+      const container = document.querySelector(containerId);
+      if (!container) return; 
+
+      const track = container.querySelector('.carousel-track');
+      const slides = Array.from(track.children);
+      const nextButton = container.querySelector('.next');
+      const prevButton = container.querySelector('.prev');
+      const dotsContainer = container.querySelector('.carousel-dots');
+      
+      let currentSlideIndex = 0;
+      let intervalId; // Variable to hold the timer ID
+
+      const AUTO_SCROLL_DELAY = 4000; // 5 seconds
+
+      // Create dots
+      slides.forEach((slide, index) => {
+          const dot = document.createElement('span');
+          dot.classList.add('dot');
+          if (index === 0) dot.classList.add('active');
+          dot.addEventListener('click', () => {
+              moveToSlide(index);
+              resetAutoScroll();
+          });
+          dotsContainer.appendChild(dot);
+      });
+
+      const dots = Array.from(dotsContainer.children);
+
+      const updateTrack = () => {
+          const slideWidth = slides[0].getBoundingClientRect().width;
+          track.style.transform = `translateX(-${slideWidth * currentSlideIndex}px)`;
+      };
+
+      const updateDots = () => {
+          dots.forEach(dot => dot.classList.remove('active'));
+          dots[currentSlideIndex].classList.add('active');
+      };
+
+      const moveToSlide = (index) => {
+          currentSlideIndex = index;
+          updateTrack();
+          updateDots();
+      };
+
+      const handleNext = () => {
+          let nextIndex = (currentSlideIndex + 1) % slides.length;
+          moveToSlide(nextIndex);
+      };
+
+      // Function to start the automatic scrolling
+      const startAutoScroll = () => {
+          intervalId = setInterval(handleNext, AUTO_SCROLL_DELAY);
+      };
+
+      // Function to clear the timer and restart it after manual interaction
+      const resetAutoScroll = () => {
+          clearInterval(intervalId);
+          startAutoScroll();
+      };
+
+      const handlePrev = () => {
+          let prevIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+          moveToSlide(prevIndex);
+          resetAutoScroll();
+      };
+
+      // Event listeners for controls (now include reset)
+      nextButton.addEventListener('click', () => {
+          handleNext();
+          resetAutoScroll();
+      });
+      prevButton.addEventListener('click', handlePrev);
+
+      // Recalculate track position on window resize
+      window.addEventListener('resize', updateTrack);
+
+      // Start the carousel immediately
+      startAutoScroll();
+    };
+
+    // Initialize scripts after DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize the new carousel by its ID
+        initCarousel('.carousel-container');
+    });
+  </script>   
 </body>
 </html>
